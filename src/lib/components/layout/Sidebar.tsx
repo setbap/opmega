@@ -39,10 +39,8 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", path: "/", icon: FiHome },
-
+  { name: "TX History", path: "/transactions", icon: AiOutlineInfoCircle },
   { name: "About", path: "/about", icon: AiOutlineInfoCircle },
-
-  // { name: 'Glossary', path: '/glossary', icon: GiBlackBook },
 ];
 
 export default function SidebarWithHeader({

@@ -1768,9 +1768,9 @@
     strip-json-comments "^3.1.1"
 
 "@flipsidecrypto/sdk@^1.0.0-alpha.0":
-  version "1.0.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@flipsidecrypto/sdk/-/sdk-1.0.0-alpha.0.tgz#11f5a7eefb1d9b48daf93032949c062a8c71d822"
-  integrity sha512-22ztGvDHbRmlbqHsUTsZas0thYy31O/icExykfVa5EfpKgtel2QWxMGoOzkWHCh+AgH9MBCmYlSDr9Mi5IvjWA==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@flipsidecrypto/sdk/-/sdk-1.1.0.tgz#a986a02ad4b2cc684b1aeca631ab00f2b3e5f7a1"
+  integrity sha512-vBbcOn0K8+mrFmxhA/4KyzSCkYxBLryszinPJAKjz0prjv6DNLN4K3554PN2l3zVWNPSx9ofyQpv7+Y8/gQhcg==
   dependencies:
     axios "^0.27.2"
 
