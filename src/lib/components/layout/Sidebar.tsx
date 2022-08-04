@@ -27,7 +27,11 @@ import { RiGovernmentLine } from "react-icons/ri";
 import { VscArrowSwap } from "react-icons/vsc";
 import { FaBitcoin } from "react-icons/fa";
 import { CgAnchor } from "react-icons/cg";
-import { AiFillDollarCircle, AiOutlineInfoCircle } from "react-icons/ai";
+import {
+  AiFillDollarCircle,
+  AiOutlineInfoCircle,
+  AiOutlinePoweroff,
+} from "react-icons/ai";
 import { GiBlackBook } from "react-icons/gi";
 import MotionBox from "../motion/Box";
 
@@ -40,6 +44,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", path: "/", icon: FiHome },
   { name: "Fees", path: "/fees", icon: AiFillDollarCircle },
+  { name: "Performance", path: "/performance", icon: AiOutlinePoweroff },
   { name: "TX History", path: "/transactions", icon: AiOutlineInfoCircle },
   { name: "About", path: "/about", icon: AiOutlineInfoCircle },
 ];
