@@ -33,6 +33,7 @@ const BarGraph = ({
   oyLabel,
   values,
   baseSpan = 1,
+  extraDecimal = 2,
   labels,
   modelInfo,
   isNotDate = false,
@@ -44,6 +45,7 @@ const BarGraph = ({
 }: {
   defualtTime?: "day" | "month";
   title: string;
+  extraDecimal?: number;
   disclaimer?: string;
   dataKey: string;
   oxLabel: string;
@@ -216,7 +218,7 @@ const BarGraph = ({
               type="number"
               tickFormatter={(value) =>
                 millify(value, {
-                  precision: 2,
+                  precision: extraDecimal,
                   decimalSeparator: ".",
                 })
               }
@@ -251,7 +253,7 @@ const BarGraph = ({
               formatter={(a: any) => {
                 return (
                   millify(a, {
-                    precision: 2,
+                    precision: extraDecimal,
                     decimalSeparator: ".",
                   }) + `${extraInfoToTooltip ?? ""}`
                 );
