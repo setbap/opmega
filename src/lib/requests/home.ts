@@ -85,7 +85,7 @@ export const dailyTXInformation: () => Promise<
 };
 export const getDappsSwapCount: () => Promise<any> = async () => {
   const res = await fetch(
-    "https://node-api.flipsidecrypto.com/api/v2/queries/8e973cc7-d261-4693-8060-fe3685764911/data/latest"
+    "https://node-api.flipsidecrypto.com/api/v2/queries/5a47aece-0336-4822-bead-e41b5b8a0118/data/latest"
   );
   const fetchedData: IRawDappsSwapCount[] = await res.json();
   const dappsName = Array.from(
@@ -100,7 +100,7 @@ export const getDappsSwapCount: () => Promise<any> = async () => {
     fetchedData,
     "DATE",
     "NAME",
-    "COUNT(*)",
+    "COUNT(DISTINCT TX_HASH)",
     dappsName,
     0
   );

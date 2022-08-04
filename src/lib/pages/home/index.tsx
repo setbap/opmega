@@ -149,7 +149,7 @@ const Home = ({
           spacing={{ base: 1, md: 2, lg: 4 }}
         >
           <BarGraph
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/8e973cc7-d261-4693-8060-fe3685764911"
+            queryLink="https://app.flipsidecrypto.com/velocity/queries/5a47aece-0336-4822-bead-e41b5b8a0118"
             modelInfo=""
             values={dappsSwapCount.dappsSwapCount}
             title="Dapps Swap Count"
