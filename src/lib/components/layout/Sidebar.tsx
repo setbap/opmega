@@ -31,6 +31,7 @@ import {
   AiFillDollarCircle,
   AiOutlineInfoCircle,
   AiOutlinePoweroff,
+  AiTwotoneFileImage,
 } from "react-icons/ai";
 import { GiBlackBook } from "react-icons/gi";
 import MotionBox from "../motion/Box";
@@ -45,6 +46,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Home", path: "/", icon: FiHome },
   { name: "Fees", path: "/fees", icon: AiFillDollarCircle },
   { name: "Performance", path: "/performance", icon: AiOutlinePoweroff },
+  { name: "NFT", path: "/nft", icon: AiTwotoneFileImage },
   { name: "TX History", path: "/transactions", icon: AiOutlineInfoCircle },
   { name: "About", path: "/about", icon: AiOutlineInfoCircle },
 ];
