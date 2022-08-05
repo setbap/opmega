@@ -20,23 +20,13 @@ import NextLink from "next/link";
 import { FiHome, FiMenu } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
-import ThemeToggle from "./ThemeToggle";
 import { useRouter } from "next/router";
-import { SiBuzzfeed } from "react-icons/si";
-import { RiGovernmentLine } from "react-icons/ri";
-import { VscArrowSwap } from "react-icons/vsc";
-import { FaBitcoin } from "react-icons/fa";
-import { CgAnchor } from "react-icons/cg";
-import {
-  AiFillDollarCircle,
-  AiOutlineInfoCircle,
-  AiOutlinePoweroff,
-  AiTwotoneFileImage,
-} from "react-icons/ai";
-import { GiBlackBook } from "react-icons/gi";
+import { CgImage } from "react-icons/cg";
+import { AiFillDollarCircle, AiOutlineInfoCircle } from "react-icons/ai";
+import { GiPowerLightning } from "react-icons/gi";
 import MotionBox from "../motion/Box";
 
-import { BiNetworkChart } from "react-icons/bi";
+import { BsClockHistory } from "react-icons/bs";
 interface LinkItemProps {
   name: string;
   icon: IconType;
@@ -45,9 +35,9 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", path: "/", icon: FiHome },
   { name: "Fees", path: "/fees", icon: AiFillDollarCircle },
-  { name: "Performance", path: "/performance", icon: AiOutlinePoweroff },
-  { name: "NFT", path: "/nft", icon: AiTwotoneFileImage },
-  { name: "TX History", path: "/transactions", icon: AiOutlineInfoCircle },
+  { name: "Performance", path: "/performance", icon: GiPowerLightning },
+  { name: "NFT", path: "/nft", icon: CgImage },
+  { name: "TX History", path: "/transactions", icon: BsClockHistory },
   { name: "About", path: "/about", icon: AiOutlineInfoCircle },
 ];
 
