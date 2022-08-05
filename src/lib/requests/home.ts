@@ -10,6 +10,9 @@ import {
   IDailyInformation,
   IRawTXDistance,
   IRawDappsSwapCount,
+  IDistributionOfTXBetweenDapps,
+  IMostPopularTypeOfDappsUsed,
+  IDailyNewWallet,
 } from "lib/types/types/home";
 import moment from "moment";
 
@@ -23,6 +26,34 @@ export const getAVGTXInfo = async (): Promise<IAVGTXInfo> => {
     "Average Tx per Minute": data.avg_tx_per_min,
   };
 };
+export const getDistributionOfTXBetweenDapps = async (): Promise<
+  IDistributionOfTXBetweenDapps[]
+> => {
+  const res = await fetch(
+    "https://node-api.flipsidecrypto.com/api/v2/queries/bdd865ba-8dac-4318-b12e-a633f4440e30/data/latest"
+  );
+  const data: IDistributionOfTXBetweenDapps[] = await res.json();
+  return data;
+};
+
+export const getMostPopularTypeOfDappsUsed = async (): Promise<
+  IMostPopularTypeOfDappsUsed[]
+> => {
+  const res = await fetch(
+    "https://node-api.flipsidecrypto.com/api/v2/queries/ada28b11-e4eb-45e3-b15a-e11836fda955/data/latest"
+  );
+  const data: IMostPopularTypeOfDappsUsed[] = await res.json();
+  return data;
+};
+
+export const getDailyNewWallet = async (): Promise<IDailyNewWallet[]> => {
+  const res = await fetch(
+    "https://node-api.flipsidecrypto.com/api/v2/queries/b0d672a2-bb9a-47ef-babc-cd87a03bca84/data/latest"
+  );
+  const data: IDailyNewWallet[] = await res.json();
+  return data;
+};
+
 export const getTotalTXInfo = async (): Promise<IRawTotalTXInfo> => {
   const res = await fetch(
     "https://node-api.flipsidecrypto.com/api/v2/queries/fab5c6ac-9824-48bd-addc-1ae9f8de1962/data/latest"

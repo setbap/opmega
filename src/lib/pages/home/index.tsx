@@ -2,6 +2,7 @@ import { Box, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import BarGraph from "lib/components/charts/BarGraph";
 import DonutChart from "lib/components/charts/DonutChart";
 import ChartBox from "lib/components/charts/LineChart";
+import LineChartWithBar from "lib/components/charts/LineChartWithBar";
 import MultiChartBox from "lib/components/charts/MultiLineChart";
 import StackedAreaChart from "lib/components/charts/StackedAreaGraph";
 import { StatsCard } from "lib/components/charts/StateCard";
@@ -9,6 +10,9 @@ import { StateCardRemoteData } from "lib/components/charts/StateCardRemoteData";
 import {
   IAVGTXInfo,
   IDailyInformation,
+  IDailyNewWallet,
+  IDistributionOfTXBetweenDapps,
+  IMostPopularTypeOfDappsUsed,
   IRawTotalTXInfo,
   IRawTXDistance,
   ITransactionBotRate,
@@ -41,6 +45,9 @@ interface Props {
   transactionBotRateData: ITransactionBotRate[];
   transactionDistributionData: ITXDistribution[];
   dailyTXInformationData: IDailyInformation[];
+  distributionOfTXBetweenDapps: IDistributionOfTXBetweenDapps[];
+  mostPopularTypeOfDappsUsed: IMostPopularTypeOfDappsUsed[];
+  dailyNewWallet: IDailyNewWallet[];
   //
   dappsSwapCount: any;
 }
@@ -54,6 +61,9 @@ const Home = ({
   transactionBotRateData,
   transactionDistributionData,
   dailyTXInformationData,
+  distributionOfTXBetweenDapps,
+  mostPopularTypeOfDappsUsed,
+  dailyNewWallet,
   //
   dappsSwapCount,
 }: Props) => {
@@ -136,8 +146,16 @@ const Home = ({
           <StatsCard
             link="https://app.flipsidecrypto.com/velocity/queries/5bb5762b-6ec4-4c7f-8304-0c2d50622465"
             status="inc"
-            title={"Average Time Between Two TX(Min)"}
+            title={"Average Time Between Two TX of Users(Min)"}
             stat={timeBetweenTwoTXInfo["avrage time betwwen two TX"]}
+          />
+
+          <StateCardRemoteData
+            url="https://node-api.flipsidecrypto.com/api/v2/queries/a00daf05-438c-40b9-894e-a4f27d9c0284/data/latest"
+            link="https://app.flipsidecrypto.com/velocity/queries/a00daf05-438c-40b9-894e-a4f27d9c0284"
+            status="unchanged"
+            title={"Current New Wallets"}
+            getStat={(data) => data[0]["Current New Wallets"]}
           />
         </SimpleGrid>
         <SimpleGrid
@@ -148,6 +166,59 @@ const Home = ({
           columns={{ sm: 1, md: 1, lg: 2, "2xl": 3 }}
           spacing={{ base: 1, md: 2, lg: 4 }}
         >
+          <DonutChart
+            queryLink="https://app.flipsidecrypto.com/velocity/queries/c9226b84-3ca7-4da2-ab29-91dc9e438ca4"
+            data={transactionDistributionData}
+            tooltipTitle="Distribution of Transaction in Optimism"
+            modelInfo="Distribution of Transaction in Optimism"
+            title="Distribution of Transaction in Optimism"
+            dataKey="count"
+            nameKey="TX # Range"
+          />
+          <DonutChart
+            queryLink="https://app.flipsidecrypto.com/velocity/queries/bdd865ba-8dac-4318-b12e-a633f4440e30"
+            data={distributionOfTXBetweenDapps}
+            tooltipTitle=""
+            modelInfo=""
+            title="Transaction based distribution of DEX"
+            dataKey="TX Count"
+            nameKey="Name"
+          />
+          <DonutChart
+            queryLink="https://app.flipsidecrypto.com/velocity/queries/ada28b11-e4eb-45e3-b15a-e11836fda955"
+            data={mostPopularTypeOfDappsUsed}
+            tooltipTitle=""
+            modelInfo=""
+            title="Most Popular Type of Dapps By TX Number "
+            dataKey="TX count"
+            nameKey="Type"
+          />
+
+          <LineChartWithBar
+            customColor={colors[1]}
+            barColor={colors[0]}
+            data={dailyNewWallet}
+            queryLink="https://app.flipsidecrypto.com/velocity/queries/b0d672a2-bb9a-47ef-babc-cd87a03bca84"
+            tooltipTitle=""
+            modelInfo=""
+            title="Daily new wallets"
+            baseSpan={3}
+            barDataKey="New Wallets"
+            lineDataKey="Avg New Wallets"
+            xAxisDataKey="Day"
+          />
+          <ChartBox
+            customColor={colors[0]}
+            data={dailyTXInformationData}
+            queryLink="https://app.flipsidecrypto.com/velocity/queries/4b25478f-c64c-4ac8-9e42-cc5ed0660290"
+            tooltipTitle="Number of unique address"
+            modelInfo="Number of unique address"
+            title="Number of daily unique address"
+            baseSpan={3}
+            areaDataKey="Unique Address"
+            xAxisDataKey="Day"
+          />
+
           <BarGraph
             queryLink="https://app.flipsidecrypto.com/velocity/queries/5a47aece-0336-4822-bead-e41b5b8a0118"
             modelInfo=""
@@ -166,6 +237,7 @@ const Home = ({
           />
 
           <ChartBox
+            customColor={`${colors[0]}80`}
             data={transactionBotRateData}
             queryLink="https://app.flipsidecrypto.com/velocity/queries/81eb5605-531d-4111-bd71-d7187c6d5687"
             tooltipTitle="Transaction Bot Rate(%)"
@@ -177,17 +249,7 @@ const Home = ({
           />
 
           <ChartBox
-            data={dailyTXInformationData}
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/4b25478f-c64c-4ac8-9e42-cc5ed0660290"
-            tooltipTitle="Number of unique address"
-            modelInfo="Number of unique address"
-            title="Number of daily unique address"
-            baseSpan={1}
-            areaDataKey="Unique Address"
-            xAxisDataKey="Day"
-          />
-
-          <ChartBox
+            customColor={`${colors[0]}80`}
             data={dailyTXInformationData}
             queryLink="https://app.flipsidecrypto.com/velocity/queries/4b25478f-c64c-4ac8-9e42-cc5ed0660290"
             tooltipTitle="Number of transactions"
@@ -199,6 +261,7 @@ const Home = ({
           />
 
           <ChartBox
+            customColor={`${colors[0]}80`}
             data={dailyTXInformationData}
             queryLink="https://app.flipsidecrypto.com/velocity/queries/4b25478f-c64c-4ac8-9e42-cc5ed0660290"
             tooltipTitle="Transactions success rate"
@@ -210,6 +273,7 @@ const Home = ({
           />
 
           <ChartBox
+            customColor={`${colors[0]}80`}
             data={dailyTXInformationData}
             queryLink="https://app.flipsidecrypto.com/velocity/queries/4b25478f-c64c-4ac8-9e42-cc5ed0660290"
             tooltipTitle="Number of TX per minute"
@@ -218,16 +282,6 @@ const Home = ({
             baseSpan={1}
             areaDataKey="TX per Miunte"
             xAxisDataKey="Day"
-          />
-
-          <DonutChart
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/c9226b84-3ca7-4da2-ab29-91dc9e438ca4"
-            data={transactionDistributionData}
-            tooltipTitle="Distribution of Transaction in Optimism"
-            modelInfo="Distribution of Transaction in Optimism"
-            title="Distribution of Transaction in Optimism"
-            dataKey="count"
-            nameKey="TX # Range"
           />
         </SimpleGrid>
       </Box>

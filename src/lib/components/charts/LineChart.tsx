@@ -301,8 +301,8 @@ const ChartBox = ({
             <Area
               dataKey={areaDataKey}
               style={{ stroke: chartColor }}
-              stroke={'red'}
-              fill={`url(#color${additionalDumpTextToAddKeyToKeyBeUnique})`}
+              stroke={"red"}
+              fill={customColor}
             />
 
             {/* <Legend
@@ -340,7 +340,7 @@ const ChartBox = ({
                             0,
                             1
                           ).getTime()) /
-                        (1000 * 60 * 60 * 24)
+                          (1000 * 60 * 60 * 24)
                       ) + 1,
                     name: maxDate!.toDate().getFullYear().toString(),
                   },

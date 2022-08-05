@@ -56,3 +56,19 @@ export interface IRawDappsSwapCount {
   NAME: string;
   "COUNT(*)": number;
 }
+
+export interface IDistributionOfTXBetweenDapps {
+  Name: string;
+  "Tx Count": number;
+}
+
+export interface IMostPopularTypeOfDappsUsed {
+  Type: string;
+  "Tx count": number;
+}
+
+export interface IDailyNewWallet {
+  Day: string;
+  "New Wallets": number;
+  "Avg New Wallets": number;
+}

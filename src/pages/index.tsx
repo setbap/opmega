@@ -2,7 +2,10 @@ import Home from "lib/pages/home";
 import {
   dailyTXInformation,
   getAVGTXInfo,
+  getDailyNewWallet,
   getDappsSwapCount,
+  getDistributionOfTXBetweenDapps,
+  getMostPopularTypeOfDappsUsed,
   getTimeBetweenTwoTXInfo,
   getTotalTXInfo,
   transactionBotRate,
@@ -16,6 +19,9 @@ export async function getStaticProps() {
     avgTxInfo,
     totalTXInfo,
     timeBetweenTwoTXInfo,
+    distributionOfTXBetweenDapps,
+    mostPopularTypeOfDappsUsed,
+    dailyNewWallet,
     dappsSwapCount,
   ] = await Promise.all([
     // static
@@ -26,6 +32,9 @@ export async function getStaticProps() {
     getAVGTXInfo(),
     getTotalTXInfo(),
     getTimeBetweenTwoTXInfo(),
+    getDistributionOfTXBetweenDapps(),
+    getMostPopularTypeOfDappsUsed(),
+    getDailyNewWallet(),
     // seorate
     getDappsSwapCount(),
   ]);
@@ -39,6 +48,9 @@ export async function getStaticProps() {
       avgTxInfo,
       totalTXInfo,
       timeBetweenTwoTXInfo,
+      distributionOfTXBetweenDapps,
+      mostPopularTypeOfDappsUsed,
+      dailyNewWallet,
       //
       dappsSwapCount,
     },
