@@ -1,24 +1,24 @@
 /** @type {import('next-seo').DefaultSeoProps} */
 const defaultSEOConfig = {
-  title: "OptimismDash",
-  titleTemplate: "%s | Business Intelligence Dashboard for optimism.io",
+  title: "opmega",
+  titleTemplate: "%s | Business Intelligence Dashboard for NFTs on optimism.io",
   defaultTitle:
-    "OptimismDash | Business Intelligence Dashboard for optimism.io ",
+    "opmega | Business Intelligence Dashboard for NFTs on optimism.io ",
   description:
-    "Best Business Intelligence Dashboard for optimism.io by Flipside Crypto and Setbap ",
-  canonical: "https://OptimismDash.vercel.app/",
+    "Best Business Intelligence Dashboard for NFTs on optimism.io by Flipside Crypto and Setbap ",
+  canonical: "https://opmega.vercel.app/",
   openGraph: {
-    url: "https://OptimismDash.vercel.app/",
-    title: "OptimismDash",
+    url: "https://opmega.vercel.app/",
+    title: "opmega",
     description:
-      "Best Business Intelligence Dashboard for optimism.io by Flipside Crypto and Setbap ",
+      "Best Business Intelligence Dashboard for NFTs on optimism.io by Flipside Crypto and Setbap ",
     images: [
       {
-        url: "https://og-image.sznm.dev/**OptimismDash**.vercel.app.png?theme=dark&md=1&fontSize=125px",
-        alt: "OptimismDash by Flipside Crypto and Setbap",
+        url: "https://og-image.sznm.dev/**opmega**.vercel.app.png?theme=dark&md=1&fontSize=125px",
+        alt: "opmega by Flipside Crypto and Setbap",
       },
     ],
-    site_name: "OptimismDash",
+    site_name: "opmega",
   },
   twitter: {
     handle: "@flipsidecrypto",

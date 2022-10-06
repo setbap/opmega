@@ -64,11 +64,11 @@ const Governance = ({
   return (
     <>
       <NextSeo
-        title={`${names.APP_NAME} Joepegs NFT marketplace | Business Intelligence Dashboard for ${names.BLOCKCHAIN}`}
-        description="Track the latest stats and trends on ${names.BLOCKCHAIN}"
+        title={`Quix NFT marketplace `}
+        description={`Track the latest stats and trends on ${names.BLOCKCHAIN}`}
         openGraph={{
           url: `https://${names.SITE_URL}/`,
-          title: `${names.APP_NAME} | Business Intelligence Dashboard for ${names.BLOCKCHAIN}`,
+          title: `Quix NFT marketplace `,
           description: `Track the latest stats and trends on ${names.BLOCKCHAIN}`,
           images: [
             {
