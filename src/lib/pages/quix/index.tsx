@@ -9,7 +9,11 @@ import names from "lib/utility/names";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 
-import { INFTSaleChange, INFTSalesInfo } from "lib/types/types/nft";
+import {
+  INFTSaleChange,
+  INFTSalesInfo,
+  INFTTotalSaleCountAndVolume,
+} from "lib/types/types/nft";
 import StackedAreaChart from "lib/components/charts/StackedAreaGraph";
 import { ReturnDataType } from "lib/types/base";
 
@@ -45,18 +49,19 @@ interface Props {
   totalInfo: INFTSalesInfo;
   salesvolumein$ETH: any[];
   salesCount: any[];
+  totalSaleCountAndVolume: INFTTotalSaleCountAndVolume[];
+
   quixNFTSalesChangeInfo: ReturnDataType<INFTSaleChange>;
 }
 
 const Governance = ({
-  collections,
   queryLink,
-  saleVolume,
+  totalInfo,
   topBasedOnSaleCount,
   topBasedOnSaleVolume,
   coollectionSaleVolumeVSCount,
   coollectionUniqueBuyersVSSellers,
-  totalInfo,
+  totalSaleCountAndVolume,
   salesCount,
   salesvolumein$ETH,
   quixNFTSalesChangeInfo,
@@ -89,6 +94,37 @@ const Governance = ({
           columns={{ base: 1, md: 2, lg: 2, "2xl": 3 }}
           spacing={{ base: 5, lg: 8 }}
         >
+          <StatsCard
+            stat={totalInfo["Total Sales Count"]}
+            title="Total Sales Count"
+            status="unchanged"
+            hasArrowIcon={false}
+            link={quixNFTSalesChangeInfo.key}
+          />
+          <StatsCard
+            stat={totalInfo["Total Sales Volume"]}
+            title="Total Sales Volume"
+            status="unchanged"
+            hasArrowIcon={false}
+            link={quixNFTSalesChangeInfo.key}
+          />
+          <StatsCard
+            stat={totalInfo["Total Unique Buyers"]}
+            title="Total Unique Buyerss"
+            status="unchanged"
+            hasArrowIcon={false}
+            link={quixNFTSalesChangeInfo.key}
+          />
+
+          <StatsCard
+            stat={totalInfo["Total Unique Sellers"]}
+            title="Total Unique Sellers"
+            status="unchanged"
+            change={undefined}
+            hasArrowIcon={false}
+            link={quixNFTSalesChangeInfo.key}
+          />
+
           <StatsCard
             hasArrowIcon={true}
             title={"Current Sales Count"}
@@ -132,6 +168,23 @@ const Governance = ({
           spacing={{ base: 1, md: 2, lg: 4 }}
         >
           <DonutChart
+            queryLink="4ff5074f-ffb6-4b34-a4d8-0c46c2aa0130"
+            data={totalSaleCountAndVolume}
+            modalInfo=""
+            title="Most popular currency for sales based on sales count"
+            dataKey="Sales Count"
+            nameKey="Currency"
+          />
+
+          <DonutChart
+            queryLink="https://app.flipsidecrypto.com/veloc ity/queries/4ff5074f-ffb6-4b34-a4d8-0c46c2aa0130"
+            data={totalSaleCountAndVolume}
+            modalInfo=""
+            title="Most popular currency for sales based on sales volume in USD"
+            dataKey="Volume in USD"
+            nameKey="Currency"
+          />
+          <DonutChart
             data={topBasedOnSaleCount.slice(0, 10)}
             nameKey="NFT Collection"
             dataKey="Sales Count"
@@ -147,34 +200,19 @@ const Governance = ({
             baseSpan={1}
             modalInfo=""
           />
-          <BarGraph
-            hideLegend
-            queryLink={queryLink}
-            extraInfoToTooltip=""
-            modalInfo=""
-            values={saleVolume}
-            title="volume per NFT collection"
-            dataKey="Name"
-            oyLabel="Sales Volume"
-            oxLabel="Day"
-            baseSpan={3}
-            labels={collections.map((item, i) => ({
-              color: colors[i % colors.length],
-              key: item,
-            }))}
-          />
 
           <BarGraph
             isSeprate
             isNotDate
+            disclaimer="x axis is collection name"
             queryLink={queryLink}
             extraInfoToTooltip=""
             modalInfo=""
             values={coollectionSaleVolumeVSCount}
-            title="volume of sales in $AVAX and number of sales for each NFT collection"
+            title="volume of sales in $USD and number of sales for each NFT collection"
             dataKey="NFT Collection"
-            oyLabel="NFT Collection"
-            oxLabel=""
+            oyLabel=""
+            oxLabel="NFT Collection"
             baseSpan={3}
             labels={[
               {
@@ -193,6 +231,7 @@ const Governance = ({
             data={salesCount}
             areaDataKey="Sales Count"
             xAxisDataKey="Day"
+            oyLabel="Count"
             title="Sales count"
             baseSpan={3}
           />
@@ -204,7 +243,7 @@ const Governance = ({
             values={coollectionUniqueBuyersVSSellers}
             title="Unique buyers/sellers"
             dataKey="Day"
-            oyLabel="Day"
+            oyLabel="Count"
             oxLabel=""
             baseSpan={3}
             labels={[
@@ -224,9 +263,9 @@ const Governance = ({
             extraInfoToTooltip=""
             modalInfo=""
             values={salesvolumein$ETH}
-            title="Sales volume in $AVAX"
+            title="Sales volume in $USD"
             dataKey="Day"
-            oyLabel="Day"
+            oyLabel="Volume"
             oxLabel=""
             baseSpan={3}
             labels={[

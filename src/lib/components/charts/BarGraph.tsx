@@ -32,7 +32,7 @@ import { ModalInfo } from "../basic/ModalInfo";
 const BarGraph = ({
   title,
   dataKey,
-  oyLabel,
+  oyLabel = "",
   values,
   baseSpan = 1,
   labels,
@@ -54,8 +54,8 @@ const BarGraph = ({
   title: string;
   disclaimer?: string;
   dataKey: string;
-  oxLabel: string;
-  oyLabel: string;
+  oxLabel?: string;
+  oyLabel?: string;
   isNotDate?: boolean;
   monthlyValues?: any[];
   values: any[];

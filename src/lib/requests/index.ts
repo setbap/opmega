@@ -1,4 +1,8 @@
-import { INFTSaleChange, INFTSalesInfo } from "lib/types/types/nft";
+import {
+  INFTSaleChange,
+  INFTSalesInfo,
+  INFTTotalSaleCountAndVolume,
+} from "lib/types/types/nft";
 import {
   getSimpleArrayData,
   getSimpleInfo,
@@ -16,26 +20,13 @@ export const _getNFTSalesInfo = () =>
 
 export const getQuixNFTSalesInfo = async () => {
   const { data, key: queryLink } = await _getNFTSalesInfo();
-  const collections = Array.from(
-    new Set(
-      data.map((item) => {
-        return item["NFT Collection"];
-      })
-    )
-  );
-  const saleVolume = pivotData(
-    data.map((item) => ({
-      Day: item["Day"],
-      "NFT Collection": item["NFT Collection"],
-      "Sales Volume": item["Sales Volume"],
-    })),
-    "Day",
-    "NFT Collection",
-    "Sales Volume",
-    collections,
-    0,
-    true
-  );
+  // const collections = Array.from(
+  //   new Set(
+  //     data.map((item) => {
+  //       return item["NFT Collection"];
+  //     })
+  //   )
+  // );
 
   const coollectionSaleCount = summerizeRow(
     data,
@@ -94,8 +85,7 @@ export const getQuixNFTSalesInfo = async () => {
 
   return {
     queryLink,
-    collections,
-    saleVolume,
+
     topBasedOnSaleCount,
     topBasedOnSaleVolume,
     coollectionSaleVolumeVSCount,
@@ -104,6 +94,16 @@ export const getQuixNFTSalesInfo = async () => {
     salesvolumein$ETH,
     salesCount,
   };
+};
+
+export const getTotalSaleCountAndVolume = async (): Promise<
+  INFTTotalSaleCountAndVolume[]
+> => {
+  const res = await fetch(
+    "https://node-api.flipsidecrypto.com/api/v2/queries/4ff5074f-ffb6-4b34-a4d8-0c46c2aa0130/data/latest"
+  );
+  const data: INFTTotalSaleCountAndVolume[] = await res.json();
+  return data;
 };
 
 export const getQuixNFTSalesChangeInfo = () =>

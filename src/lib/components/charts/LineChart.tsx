@@ -20,6 +20,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Label,
 } from "recharts";
 import { GRID_ITEM_SIZE } from "./template";
 import ChartSpanMenu from "../basic/ChartSpanMenu";
@@ -49,10 +50,12 @@ interface Props {
   queryLink?: string;
   additionalDumpTextToAddKeyToKeyBeUnique?: string;
   customColor?: string;
+  oyLabel?: string;
 }
 
 const ChartBox = ({
   baseSpan = 1,
+  oyLabel = "",
   defultDateView = "day",
   queryLink,
   isNotDate = false,
@@ -287,10 +290,25 @@ const ChartBox = ({
                   decimalSeparator: ".",
                 })
               }
-              width={40}
+              width={48}
               fontSize="12"
               tickSize={8}
-            />
+            >
+              <Label
+                value={oyLabel}
+                position="left"
+                fontSize={"16px"}
+                angle={-90}
+                dy={-10}
+                fill={"gray"}
+                style={{
+                  color: textColor,
+                }}
+                dx={6}
+                z={100}
+              />
+            </YAxis>
+
             <Tooltip
               labelFormatter={(value: string) => {
                 if (isNotDate || defultViewSetting === "month") {

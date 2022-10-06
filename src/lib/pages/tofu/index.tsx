@@ -53,6 +53,7 @@ const Governance = ({
   coollectionSaleVolumeVSCount,
   coollectionUniqueBuyersVSSellers,
   salesCount,
+  totalInfo,
   salesvolumein$ETH,
   tofuNFTSalesChangeInfo,
 }: Props): JSX.Element => {
@@ -85,6 +86,36 @@ const Governance = ({
           spacing={{ base: 5, lg: 8 }}
         >
           <StatsCard
+            stat={totalInfo["Total Sales Count"]}
+            title="Total Sales Count"
+            status="unchanged"
+            hasArrowIcon={false}
+            link={tofuNFTSalesChangeInfo.key}
+          />
+          <StatsCard
+            stat={totalInfo["Total Sales Volume"]}
+            title="Total Sales Volume"
+            status="unchanged"
+            hasArrowIcon={false}
+            link={tofuNFTSalesChangeInfo.key}
+          />
+          <StatsCard
+            stat={totalInfo["Total Unique Buyers"]}
+            title="Total Unique Buyerss"
+            status="unchanged"
+            hasArrowIcon={false}
+            link={tofuNFTSalesChangeInfo.key}
+          />
+
+          <StatsCard
+            stat={totalInfo["Total Unique Sellers"]}
+            title="Total Unique Sellers"
+            status="unchanged"
+            change={undefined}
+            hasArrowIcon={false}
+            link={tofuNFTSalesChangeInfo.key}
+          />
+          <StatsCard
             hasArrowIcon={true}
             title={"Current Sales Count"}
             link={tofuNFTSalesChangeInfo.key}
@@ -96,6 +127,7 @@ const Governance = ({
             hasArrowIcon={true}
             title={"Current Sales Volume"}
             link={tofuNFTSalesChangeInfo.key}
+            decimal={4}
             stat={tofuNFTSalesChangeInfo.data["Current Sales Volume"]}
             change={tofuNFTSalesChangeInfo.data["change (%) Sales Volume"]}
             status={"inc"}
@@ -166,10 +198,9 @@ const Governance = ({
             extraInfoToTooltip=""
             modalInfo=""
             values={coollectionSaleVolumeVSCount}
-            title="volume of sales in $AVAX and number of sales for each NFT collection"
+            title="volume of sales in $ETH and number of sales for each NFT collection"
             dataKey="NFT Collection"
-            oyLabel="NFT Collection"
-            oxLabel=""
+            disclaimer="NFT Collection"
             baseSpan={3}
             labels={[
               {
@@ -187,6 +218,7 @@ const Governance = ({
             modelInfo=""
             data={salesCount}
             areaDataKey="Sales Count"
+            oyLabel="Count"
             xAxisDataKey="Day"
             title="Sales count"
             baseSpan={3}
@@ -199,7 +231,7 @@ const Governance = ({
             values={coollectionUniqueBuyersVSSellers}
             title="Unique buyers/sellers"
             dataKey="Day"
-            oyLabel="Day"
+            oyLabel="Count"
             oxLabel=""
             baseSpan={3}
             labels={[
@@ -219,9 +251,9 @@ const Governance = ({
             extraInfoToTooltip=""
             modalInfo=""
             values={salesvolumein$ETH}
-            title="Sales volume in $AVAX"
+            title="Sales volume in $ETH"
             dataKey="Day"
-            oyLabel="Day"
+            oyLabel="Volume"
             oxLabel=""
             baseSpan={3}
             labels={[
