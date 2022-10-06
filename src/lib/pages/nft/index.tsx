@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 import BarGraph from "lib/components/charts/BarGraph";
 import DonutChart from "lib/components/charts/DonutChart";
 import StackedAreaChart from "lib/components/charts/StackedAreaGraph";
@@ -103,10 +103,9 @@ const Performance = ({
           spacing={{ base: 1, md: 2, lg: 4 }}
         >
           <DonutChart
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/4ff5074f-ffb6-4b34-a4d8-0c46c2aa0130"
+            queryLink="4ff5074f-ffb6-4b34-a4d8-0c46c2aa0130"
             data={totalSaleCountAndVolume}
-            tooltipTitle=""
-            modelInfo=""
+            modalInfo=""
             title="Most popular currency for sales based on sales count"
             dataKey="Sales Count"
             nameKey="Currency"
@@ -115,35 +114,32 @@ const Performance = ({
           <DonutChart
             queryLink="https://app.flipsidecrypto.com/veloc ity/queries/4ff5074f-ffb6-4b34-a4d8-0c46c2aa0130"
             data={totalSaleCountAndVolume}
-            tooltipTitle=""
-            modelInfo=""
+            modalInfo=""
             title="Most popular currency for sales based on sales volume in USD"
             dataKey="Volume in USD"
             nameKey="Currency"
           />
 
           <DonutChart
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/20f3ae27-b449-44c0-97fc-b8449bc65338"
+            queryLink="20f3ae27-b449-44c0-97fc-b8449bc65338"
             data={top10NFTCollectionBaseSellCount}
-            tooltipTitle=""
-            modelInfo=""
+            modalInfo=""
             title="Top 10 popular NFT collections based on sales count"
             dataKey="Sales Count"
             nameKey="Collection Name"
           />
 
           <DonutChart
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/3c9f9fb5-191d-498b-8a6f-7205aec64405"
+            queryLink="3c9f9fb5-191d-498b-8a6f-7205aec64405"
             data={top10NFTCollectionBaseSellVolume}
-            tooltipTitle=""
-            modelInfo=""
+            modalInfo=""
             title="Top 10 popular NFT collections based on sales volume (USD)"
             dataKey="Sales Volume"
             nameKey="Collection Name"
           />
 
           <StackedAreaChart
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/d2ddb049-b461-4be8-80cf-640b333fbc02/"
+            queryLink="d2ddb049-b461-4be8-80cf-640b333fbc02/"
             dataKey="Day"
             labels={[
               {
@@ -155,7 +151,7 @@ const Performance = ({
                 key: "Unique Seller",
               },
             ]}
-            modelInfo=""
+            modalInfo=""
             title="Daily Unique Buyers vs Unique Sellers"
             oxLabel="Day"
             oyLabel="Address Count"
@@ -164,8 +160,8 @@ const Performance = ({
           />
 
           <BarGraph
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/c1cb47cf-de40-40b7-a45b-654b247130f5"
-            modelInfo=""
+            queryLink="c1cb47cf-de40-40b7-a45b-654b247130f5"
+            modalInfo=""
             values={saleCountAndVolume.saleCount}
             title="Sales Count"
             dataKey="date"
@@ -181,8 +177,8 @@ const Performance = ({
           />
 
           <BarGraph
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/c1cb47cf-de40-40b7-a45b-654b247130f5"
-            modelInfo=""
+            queryLink="c1cb47cf-de40-40b7-a45b-654b247130f5"
+            modalInfo=""
             values={saleCountAndVolume.saleVolume}
             title="Sales Volume (USD)"
             dataKey="date"
@@ -198,8 +194,9 @@ const Performance = ({
           />
 
           <BarGraph
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/c1cb47cf-de40-40b7-a45b-654b247130f5"
-            modelInfo=""
+            hideLegend
+            queryLink="c1cb47cf-de40-40b7-a45b-654b247130f5"
+            modalInfo=""
             values={dailyMostPopularNFTCollection.saleCount}
             title="top 5 collection in each day based on sales count"
             dataKey="date"
@@ -214,8 +211,9 @@ const Performance = ({
             )}
           />
           <BarGraph
-            queryLink="https://app.flipsidecrypto.com/velocity/queries/653b78c3-38eb-4176-9de5-0e258f0c180d"
-            modelInfo=""
+            hideLegend
+            queryLink="653b78c3-38eb-4176-9de5-0e258f0c180d"
+            modalInfo=""
             values={dailyMostValueNfTCollection.saleVolume}
             title="top 5 collection in each day based on sales volume"
             dataKey="date"

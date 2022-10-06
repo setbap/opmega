@@ -19,6 +19,7 @@ import {
   ResponsiveContainer,
   ComposedChart,
   Bar,
+  Legend,
 } from "recharts";
 import { GRID_ITEM_SIZE } from "./template";
 import ChartSpanMenu from "../basic/ChartSpanMenu";
@@ -27,15 +28,16 @@ import { FilterDayBarBox } from "../basic/FilterDayBar";
 import { AnimatePresence } from "framer-motion";
 import MotionBox from "../motion/Box";
 import LinkToSourceMenuItem from "../basic/LinkToSourceMenuItem";
+import MDRenderer from "../basic/MDRenderer";
+import { ModalInfo } from "../basic/ModalInfo";
 
 interface Props {
-  modelInfo: string;
+  modalInfo: string;
   xAxisDataKey: string;
   showSeprate?: boolean;
   lineDataKey: string;
   barDataKey: string;
   title: string;
-  tooltipTitle: string;
   data: any[];
   extraDecimal?: number;
   isNotDate?: boolean;
@@ -48,6 +50,7 @@ interface Props {
   barColor: string;
   additionalDumpTextToAddKeyToKeyBeUnique?: string;
   customColor?: string;
+  infoSizePercentage?: number | "full";
 }
 
 const LineChartWithBar = ({
@@ -63,11 +66,12 @@ const LineChartWithBar = ({
   xAxisDataKey,
   data,
   title,
-  modelInfo,
+  modalInfo,
   additionalDumpTextToAddKeyToKeyBeUnique = "",
   defultSelectedRange = "all",
   showMonthly = false,
-  customColor = "var(--chakra-colors-green-300)",
+  infoSizePercentage = 50,
+  customColor = "#00ff00",
 }: Props) => {
   const [spanItem, setSpanItem] = useState(GRID_ITEM_SIZE[baseSpan - 1]);
   const [defultViewSetting, setDefultViewSetting] = useState(defultDateView);
@@ -167,8 +171,21 @@ const LineChartWithBar = ({
       borderRadius={"2xl"}
       width="100%"
       colSpan={spanItem}
+      display="flex"
+      flex={2}
+      flexDir={
+        spanItem["2xl"] !== 3 || infoSizePercentage === "full"
+          ? "column-reverse"
+          : ["column-reverse", "column-reverse", "column-reverse", "row", "row"]
+      }
     >
+      <ModalInfo
+        modalInfo={modalInfo}
+        infoSizePercentage={infoSizePercentage}
+        largeSpanSize={baseSpan}
+      />
       <Box
+        flex={1}
         px="6"
         pt="4"
         pb={"2"}
@@ -182,7 +199,7 @@ const LineChartWithBar = ({
       >
         <ChartHeader
           chartMenu={
-            <MenuList>
+            <MenuList bg="#232323">
               {queryLink && (
                 <>
                   <LinkToSourceMenuItem queryLink={queryLink} />
@@ -217,7 +234,7 @@ const LineChartWithBar = ({
               />
             </MenuList>
           }
-          modalInfo={modelInfo}
+          modalInfo={modalInfo}
           title={title}
         />
         <Box p={"1"} />
@@ -240,18 +257,18 @@ const LineChartWithBar = ({
               >
                 <stop
                   offset="0%"
-                  style={{ stopColor: chartColor }}
-                  stopOpacity={0.95}
+                  style={{ stopColor: barColor }}
+                  stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  style={{ stopColor: chartColor }}
-                  stopOpacity={0.8}
+                  style={{ stopColor: barColor }}
+                  stopOpacity={0.9}
                 />
               </linearGradient>
             </defs>
             <CartesianGrid
-              style={{ stroke: "rgba(10,10,10,0.1)", opacity: 0.25 }}
+              style={{ stroke: "rgba(110,110,110,1)", opacity: 0.25 }}
               strokeDasharray="3 3"
             />
             <XAxis
@@ -315,22 +332,22 @@ const LineChartWithBar = ({
             <Bar
               yAxisId={showSeprate ? "right" : "left"}
               dataKey={barDataKey}
-              fill={barColor}
+              legendType="circle"
+              fill={`url(#color${additionalDumpTextToAddKeyToKeyBeUnique})`}
             />
 
             <Area
               dataKey={lineDataKey}
               yAxisId="left"
               strokeWidth={"2"}
-              style={{ stroke: chartColor }}
-              fill={`${chartColor}6f`}
+              fill={`${chartColor}30`}
             />
 
-            {/* <Legend
-              verticalAlign="top"
+            <Legend
+              verticalAlign="bottom"
               fontSize={"8px"}
-              style={{ fontSize: "7px" }}
-            /> */}
+              style={{ fontSize: "7px", marginBottom: "4px" }}
+            />
           </ComposedChart>
         </ResponsiveContainer>
         <AnimatePresence>

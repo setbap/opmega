@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React, { ReactNode, useEffect } from "react";
+import React, { useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { QueryResultSet, QueryStatusFinished } from "@flipsidecrypto/sdk";
 import { useMutation } from "react-query";

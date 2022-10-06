@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  AreaChart,
+  BarChart,
   Bar,
   XAxis,
   YAxis,
@@ -9,7 +9,6 @@ import {
   Label,
   ResponsiveContainer,
   CartesianGrid,
-  Area,
 } from "recharts";
 import {
   Box,
@@ -26,12 +25,10 @@ import { GRID_ITEM_SIZE } from "./template";
 import ChartSpanMenu from "../basic/ChartSpanMenu";
 import ChartHeader from "../basic/ChartHeader";
 import LinkToSourceMenuItem from "../basic/LinkToSourceMenuItem";
-import { ModalInfo } from "../basic/ModalInfo";
 
-const StackedAreaChart = ({
+const BarGraph = ({
   title,
   dataKey,
-  oxLabel,
   oyLabel,
   values,
   baseSpan = 1,
@@ -42,11 +39,12 @@ const StackedAreaChart = ({
   extraInfoToTooltip,
   defualtTime = "day",
   queryLink,
-  dataPrecision = 2,
-  infoSizePercentage = 50,
+  disclaimer,
+  isSeprate = false,
 }: {
   defualtTime?: "day" | "month";
   title: string;
+  disclaimer?: string;
   dataKey: string;
   oxLabel: string;
   oyLabel: string;
@@ -55,11 +53,10 @@ const StackedAreaChart = ({
   values: any[];
   modalInfo: string;
   baseSpan?: number;
+  isSeprate?: boolean;
   queryLink?: string;
   extraInfoToTooltip?: string;
-  dataPrecision?: number;
   labels: { key: string; color: string }[];
-  infoSizePercentage?: number | "full";
 }) => {
   const hasMonthly = !isNotDate && monthlyValues && monthlyValues.length > 0;
   const [chartData, setChartData] = useState(
@@ -95,7 +92,7 @@ const StackedAreaChart = ({
   const selectBar = (e: any) => {
     const numberOfBars = Object.keys(barProps).length - 1;
     const numberOfHideBars = Object.entries(barProps).filter(
-      ([key, value]) => value == true
+      ([, value]) => value == true
     ).length;
 
     if (numberOfBars === numberOfHideBars + 1 && !barProps[e.dataKey]) {
@@ -139,20 +136,8 @@ const StackedAreaChart = ({
       _hover={{ boxShadow: "var(--chakra-shadows-lg)" }}
       borderRadius={"2xl"}
       width="100%"
-      flex={2}
-      flexDir={
-        spanItem["2xl"] !== 3 || infoSizePercentage === "full"
-          ? "column-reverse"
-          : ["column-reverse", "column-reverse", "column-reverse", "row", "row"]
-      }
     >
-      <ModalInfo
-        modalInfo={modalInfo}
-        infoSizePercentage={infoSizePercentage}
-        largeSpanSize={baseSpan}
-      />
       <Box
-        flex={1}
         px="4"
         pt="4"
         pb={"2"}
@@ -164,6 +149,7 @@ const StackedAreaChart = ({
         id={title}
       >
         <ChartHeader
+          disclaimer={disclaimer}
           chartMenu={
             <MenuList bg="#232323">
               {queryLink && (
@@ -206,7 +192,7 @@ const StackedAreaChart = ({
         <Box p={"1"} />
 
         <ResponsiveContainer width={"100%"}>
-          <AreaChart data={chartData} className="mt-1 mb-2">
+          <BarChart data={chartData} className="mt-1 mb-2">
             <CartesianGrid
               style={{ stroke: "rgba(110,110,110,1)", opacity: 0.15 }}
               strokeDasharray="3 3"
@@ -231,7 +217,7 @@ const StackedAreaChart = ({
               type="number"
               tickFormatter={(value) =>
                 millify(value, {
-                  precision: dataPrecision,
+                  precision: 2,
                   decimalSeparator: ".",
                 })
               }
@@ -250,10 +236,12 @@ const StackedAreaChart = ({
               />
             </YAxis>
             <Tooltip
+              wrapperStyle={{ zIndex: 10 }}
               labelFormatter={(value: string) => {
                 if (isNotDate) {
                   return value;
                 }
+
                 if (chartTimeFrame === "month") {
                   return moment(value).format("MMM YYYY");
                 }
@@ -264,40 +252,36 @@ const StackedAreaChart = ({
               formatter={(a: any) => {
                 return (
                   millify(a, {
-                    precision: dataPrecision,
+                    precision: 2,
                     decimalSeparator: ".",
                   }) + `${extraInfoToTooltip ?? ""}`
                 );
               }}
             />
-
             <Legend
               fontSize={"8px"}
-              iconType="circle"
               style={{ fontSize: "7px", position: "relative" }}
               onClick={selectBar}
               onMouseOver={handleLegendMouseEnter}
               onMouseOut={handleLegendMouseLeave}
             />
             {labels.map((label, index) => (
-              <Area
-                type="monotone"
+              <Bar
                 key={index}
                 dataKey={label.key}
                 fill={label.color}
-                stroke={label.color}
-                stackId={index}
+                stackId={isSeprate ? index : dataKey}
                 hide={barProps[label.key] === true}
                 fillOpacity={Number(
-                  barProps.hover === label.key || !barProps.hover ? 0.3 : 0.1
+                  barProps.hover === label.key || !barProps.hover ? 1 : 0.6
                 )}
               />
             ))}
-          </AreaChart>
+          </BarChart>
         </ResponsiveContainer>
       </Box>
     </GridItem>
   );
 };
 
-export default StackedAreaChart;
+export default BarGraph;

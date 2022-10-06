@@ -13,11 +13,10 @@ import ChartSpanMenu from "../basic/ChartSpanMenu";
 import ChartHeader from "../basic/ChartHeader";
 import LinkToSourceMenuItem from "../basic/LinkToSourceMenuItem";
 interface Props {
-  modelInfo: string;
+  modalInfo: string;
   dataKey: string;
   nameKey: string;
   title: string;
-  tooltipTitle: string;
   data: any[];
   baseSpan?: number;
   colors?: string[];
@@ -31,12 +30,12 @@ const DonutChart = ({
   nameKey,
   data,
   title,
-  modelInfo,
-  tooltipTitle,
+  modalInfo,
   colors = [
     "#00bcd4",
     "#ffc107",
     "#ff5722",
+    "#03a9f4",
     "#4caf50",
     "#f44336",
     "#9c27b0",
@@ -166,7 +165,7 @@ const DonutChart = ({
         >
           <ChartHeader
             chartMenu={
-              <MenuList>
+              <MenuList bg="#232323">
                 {queryLink && (
                   <>
                     <LinkToSourceMenuItem queryLink={queryLink} />
@@ -181,7 +180,7 @@ const DonutChart = ({
                 />
               </MenuList>
             }
-            modalInfo={modelInfo}
+            modalInfo={modalInfo}
             title={title}
           />
           <Box p={"1"} />

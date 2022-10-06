@@ -6,6 +6,7 @@ import {
   MenuDivider,
   MenuItemOption,
   MenuOptionGroup,
+  Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import moment from "moment";
@@ -28,13 +29,15 @@ import { AnimatePresence } from "framer-motion";
 import MotionBox from "../motion/Box";
 import LinkToSourceMenuItem from "../basic/LinkToSourceMenuItem";
 import TrendLine from "./TrendLine";
+import MDRenderer from "../basic/MDRenderer";
+import { ModalInfo } from "../basic/ModalInfo";
 
 interface Props {
   modelInfo: string;
   xAxisDataKey: string;
   areaDataKey: string;
   title: string;
-  tooltipTitle: string;
+  infoSizePercentage?: number;
   data: any[];
   extraDecimal?: number;
   isNotDate?: boolean;
@@ -60,6 +63,7 @@ const ChartBox = ({
   data,
   title,
   modelInfo,
+  infoSizePercentage = 50,
   additionalDumpTextToAddKeyToKeyBeUnique = "",
   defultSelectedRange = "all",
   showMonthly = false,
@@ -151,7 +155,6 @@ const ChartBox = ({
   const textColor = useColorModeValue("gray.900", "gray.100");
   const chartColor = customColor;
   const chartUniquKey = `${areaDataKey}-${xAxisDataKey}-${additionalDumpTextToAddKeyToKeyBeUnique}`;
-
   return (
     <GridItem
       rowSpan={1}
@@ -163,8 +166,21 @@ const ChartBox = ({
       borderRadius={"2xl"}
       width="100%"
       colSpan={spanItem}
+      display="flex"
+      flex={2}
+      flexDir={
+        spanItem["2xl"] !== 3
+          ? "column-reverse"
+          : ["column-reverse", "column-reverse", "column-reverse", "row", "row"]
+      }
     >
+      <ModalInfo
+        modalInfo={modelInfo}
+        infoSizePercentage={infoSizePercentage}
+        largeSpanSize={baseSpan}
+      />
       <Box
+        flex={1}
         px="6"
         pt="4"
         pb={"2"}
@@ -178,7 +194,7 @@ const ChartBox = ({
       >
         <ChartHeader
           chartMenu={
-            <MenuList>
+            <MenuList bg="#232323">
               {queryLink && (
                 <>
                   <LinkToSourceMenuItem queryLink={queryLink} />
@@ -213,7 +229,7 @@ const ChartBox = ({
               />
             </MenuList>
           }
-          modalInfo={modelInfo}
+          modalInfo={""}
           title={title}
         />
         <Box p={"1"} />
@@ -228,7 +244,7 @@ const ChartBox = ({
           >
             <defs>
               <linearGradient
-                id={`color${additionalDumpTextToAddKeyToKeyBeUnique}`}
+                id={`color${additionalDumpTextToAddKeyToKeyBeUnique}box`}
                 x1="0"
                 y1="0"
                 x2="0"
@@ -237,17 +253,17 @@ const ChartBox = ({
                 <stop
                   offset="0%"
                   style={{ stopColor: chartColor }}
-                  stopOpacity={0.95}
+                  stopOpacity={0.7}
                 />
                 <stop
                   offset="95%"
                   style={{ stopColor: chartColor }}
-                  stopOpacity={0.8}
+                  stopOpacity={0.1}
                 />
               </linearGradient>
             </defs>
             <CartesianGrid
-              style={{ stroke: "rgba(10,10,10,0.1)", opacity: 0.25 }}
+              style={{ stroke: "rgba(110,110,110,1)", opacity: 0.15 }}
               strokeDasharray="3 3"
             />
             <XAxis
@@ -300,9 +316,8 @@ const ChartBox = ({
             />
             <Area
               dataKey={areaDataKey}
-              style={{ stroke: chartColor }}
-              stroke={"red"}
-              fill={customColor}
+              stroke={customColor}
+              fill={`url(#color${additionalDumpTextToAddKeyToKeyBeUnique}box)`}
             />
 
             {/* <Legend

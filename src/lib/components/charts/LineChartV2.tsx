@@ -27,9 +27,10 @@ import { FilterDayBarBox } from "../basic/FilterDayBar";
 import { AnimatePresence } from "framer-motion";
 import MotionBox from "../motion/Box";
 import LinkToSourceMenuItem from "../basic/LinkToSourceMenuItem";
+import { ModalInfo } from "../basic/ModalInfo";
 
 interface Props {
-  modelInfo: string;
+  modalInfo: string;
   xAxisDataKey: string;
   areaDataKey: string;
   title: string;
@@ -44,6 +45,7 @@ interface Props {
   defultDateView?: "month" | "day";
   showMonthly?: boolean;
   queryLink?: string;
+  infoSizePercentage?: number | "full";
 }
 
 const LineChartV2 = ({
@@ -58,16 +60,19 @@ const LineChartV2 = ({
   xAxisDataKey,
   data,
   title,
-  modelInfo,
+  modalInfo,
   defultSelectedRange = "all",
-  showMonthly = true
+  showMonthly = true,
+  infoSizePercentage = 50,
 }: Props) => {
   const [spanItem, setSpanItem] = useState(GRID_ITEM_SIZE[baseSpan - 1]);
   const [defultViewSetting, setDefultViewSetting] = useState(defultDateView);
   const [selectedDate, setSelectedDate] = useState<number | string>(
     defultSelectedRange
   );
-  const [chartData, setChartData] = useState(defultViewSetting === 'day' ? data : monthlyData!);
+  const [chartData, setChartData] = useState(
+    defultViewSetting === "day" ? data : monthlyData!
+  );
   const [savedDailyChart, setSavedDailyChart] = useState(data);
   const filterDateAccordingDay = (numberOfDays: number) => {
     const lastDay = moment(data[data.length - 1][xAxisDataKey]).subtract(
@@ -135,6 +140,7 @@ const LineChartV2 = ({
   return (
     <GridItem
       rowSpan={1}
+      colSpan={spanItem}
       color={textColor}
       bgColor={bgCard}
       shadow="base"
@@ -142,9 +148,20 @@ const LineChartV2 = ({
       _hover={{ boxShadow: "var(--chakra-shadows-lg)" }}
       borderRadius={"2xl"}
       width="100%"
-      colSpan={spanItem}
+      flex={2}
+      flexDirection={
+        spanItem["2xl"] !== 3 || infoSizePercentage === "full"
+          ? "column-reverse"
+          : ["column-reverse", "column-reverse", "column-reverse", "row", "row"]
+      }
     >
+      <ModalInfo
+        modalInfo={modalInfo}
+        infoSizePercentage={infoSizePercentage}
+        largeSpanSize={baseSpan}
+      />
       <Box
+        flex={1}
         px="6"
         pt="4"
         pb={"2"}
@@ -158,29 +175,33 @@ const LineChartV2 = ({
       >
         <ChartHeader
           chartMenu={
-            <MenuList>
-              {queryLink &&
+            <MenuList bg="#232323">
+              {queryLink && (
                 <>
                   <LinkToSourceMenuItem queryLink={queryLink} />
                   <MenuDivider />
                 </>
-              }
-              {showMonthly && (<><MenuOptionGroup
-                onChange={(value) => {
-                  if (value === "month") {
-                    changeDataToMonethly();
-                  } else {
-                    changeDataToDaily();
-                  }
-                }}
-                defaultValue={defultViewSetting}
-                title="Chart Date Type"
-                type="radio"
-              >
-                <MenuItemOption value={"month"}>monthly</MenuItemOption>
-                <MenuItemOption value={"day"}>daily</MenuItemOption>
-              </MenuOptionGroup>
-                <MenuDivider /></>)}
+              )}
+              {showMonthly && (
+                <>
+                  <MenuOptionGroup
+                    onChange={(value) => {
+                      if (value === "month") {
+                        changeDataToMonethly();
+                      } else {
+                        changeDataToDaily();
+                      }
+                    }}
+                    defaultValue={defultViewSetting}
+                    title="Chart Date Type"
+                    type="radio"
+                  >
+                    <MenuItemOption value={"month"}>monthly</MenuItemOption>
+                    <MenuItemOption value={"day"}>daily</MenuItemOption>
+                  </MenuOptionGroup>
+                  <MenuDivider />
+                </>
+              )}
               <ChartSpanMenu
                 onChange={(span) =>
                   setSpanItem(GRID_ITEM_SIZE[Number(span) - 1])
@@ -189,7 +210,7 @@ const LineChartV2 = ({
               />
             </MenuList>
           }
-          modalInfo={modelInfo}
+          modalInfo={modalInfo}
           title={title}
         />
         <Box p={"1"} />
@@ -217,7 +238,7 @@ const LineChartV2 = ({
               </linearGradient>
             </defs>
             <CartesianGrid
-              style={{ stroke: "rgba(10,10,10,0.1)", opacity: 0.25 }}
+              style={{ stroke: "rgba(110,110,110,1)", opacity: 0.15 }}
               strokeDasharray="3 3"
             />
             <XAxis
@@ -303,7 +324,7 @@ const LineChartV2 = ({
                             0,
                             1
                           ).getTime()) /
-                        (1000 * 60 * 60 * 24)
+                          (1000 * 60 * 60 * 24)
                       ) + 1,
                     name: maxDate!.toDate().getFullYear().toString(),
                   },

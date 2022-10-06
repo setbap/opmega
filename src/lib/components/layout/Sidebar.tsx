@@ -17,29 +17,13 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { FiHome, FiMenu } from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
 import { useRouter } from "next/router";
-import { CgImage } from "react-icons/cg";
-import { AiFillDollarCircle, AiOutlineInfoCircle } from "react-icons/ai";
-import { GiPowerLightning } from "react-icons/gi";
 import MotionBox from "../motion/Box";
-
-import { BsClockHistory } from "react-icons/bs";
-interface LinkItemProps {
-  name: string;
-  icon: IconType;
-  path: string;
-}
-const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", path: "/", icon: FiHome },
-  { name: "Fees", path: "/fees", icon: AiFillDollarCircle },
-  { name: "Performance", path: "/performance", icon: GiPowerLightning },
-  { name: "NFT", path: "/nft", icon: CgImage },
-  { name: "TX History", path: "/transactions", icon: BsClockHistory },
-  { name: "About", path: "/about", icon: AiOutlineInfoCircle },
-];
+import names from "lib/utility/names";
+import sideMenuItems from "lib/utility/sideMenuItems";
 
 export default function SidebarWithHeader({
   children,
@@ -125,16 +109,17 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 fontFamily="sans-serif"
                 fontSize="2xl"
                 ps={"2"}
+                color="white"
                 fontWeight={"extrabold"}
               >
-                OptimismDash
+                {names.APP_NAME}
               </Box>
             </>
           </NextLink>
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
+      {sideMenuItems.map((link) => (
         <NavItem
           isActive={router.pathname === link.path}
           path={link.path}
@@ -236,7 +221,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               fontSize="2xl"
               fontWeight={"extrabold"}
             >
-              OptimismDash
+              {names.APP_NAME}
             </Box>
           </>
         </NextLink>

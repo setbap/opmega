@@ -4,7 +4,12 @@ import { FiExternalLink } from "react-icons/fi";
 
 function LinkToSourceMenuItem({ queryLink }: { queryLink: string }) {
   return (
-    <MenuItem icon={<FiExternalLink />} as={Link} href={queryLink} isExternal>
+    <MenuItem
+      icon={<FiExternalLink />}
+      as={Link}
+      href={`https://app.flipsidecrypto.com/velocity/queries/${queryLink}`}
+      isExternal
+    >
       Open Query Detail
     </MenuItem>
   );

@@ -27,7 +27,7 @@ import { FilterDayBarBox } from "../basic/FilterDayBar";
 
 interface Props {
   baseSpan?: number;
-  modelInfo: string;
+  modalInfo: string;
   xAxisDataKey: string;
   areaDataKey: string[];
   title: string;
@@ -46,8 +46,8 @@ const MultiChartBox = ({
   xAxisDataKey,
   data,
   title,
-  modelInfo,
-  defultSelectedRange = 'all',
+  modalInfo,
+  defultSelectedRange = "all",
   chartColors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"],
 }: Props) => {
   const [spanItem, setSpanItem] = useState(GRID_ITEM_SIZE[baseSpan - 1]);
@@ -55,51 +55,58 @@ const MultiChartBox = ({
   const bgCard = useColorModeValue("white", "#191919");
   const textColor = useColorModeValue("gray.900", "gray.100");
 
-  const [selectedDate, setSelectedDate] = useState<number | string>(defultSelectedRange)
+  const [selectedDate, setSelectedDate] = useState<number | string>(
+    defultSelectedRange
+  );
   const [chartData, setChartData] = useState(data);
   const filterDateAccordingDay = (numberOfDays: number) => {
-    const lastDay = moment(data[data.length - 1][xAxisDataKey]).subtract(numberOfDays, 'days');
-    const newData = data.filter(item => {
-      return moment(item[xAxisDataKey]).isAfter(lastDay)
-    })
+    const lastDay = moment(data[data.length - 1][xAxisDataKey]).subtract(
+      numberOfDays,
+      "days"
+    );
+    const newData = data.filter((item) => {
+      return moment(item[xAxisDataKey]).isAfter(lastDay);
+    });
     setSelectedDate(numberOfDays);
-    setChartData(newData)
-  }
+    setChartData(newData);
+  };
 
   const getMaxDate = () => {
     let maxD = moment(data[0][xAxisDataKey]);
-    data.forEach(item => {
+    data.forEach((item) => {
       if (moment(item[xAxisDataKey]).isAfter(maxD)) {
         maxD = moment(item[xAxisDataKey]);
       }
     });
     return maxD;
-  }
+  };
   const maxDate = isNotDate ? null : getMaxDate();
   const getMinDate = () => {
     let minD = moment(data[0][xAxisDataKey]);
-    data.forEach(item => {
+    data.forEach((item) => {
       if (moment(item[xAxisDataKey]).isBefore(minD)) {
         minD = moment(item[xAxisDataKey]);
       }
     });
     return minD;
-  }
+  };
   const minDate = isNotDate ? null : getMinDate();
 
   const filterDateAccordingRange = (minDate: Date, maxDate: Date) => {
-    const newData = data.filter(item => {
-      return moment(item[xAxisDataKey]).isAfter(minDate) && moment(item[xAxisDataKey]).isBefore(maxDate)
-    })
+    const newData = data.filter((item) => {
+      return (
+        moment(item[xAxisDataKey]).isAfter(minDate) &&
+        moment(item[xAxisDataKey]).isBefore(maxDate)
+      );
+    });
     setSelectedDate("custom");
-    setChartData(newData)
-  }
-
+    setChartData(newData);
+  };
 
   const resetChartData = () => {
-    setSelectedDate('all');
-    setChartData(data)
-  }
+    setSelectedDate("all");
+    setChartData(data);
+  };
 
   return (
     <GridItem
@@ -127,7 +134,7 @@ const MultiChartBox = ({
       >
         <ChartHeader
           chartMenu={
-            <MenuList>
+            <MenuList bg="#232323">
               <ChartSpanMenu
                 onChange={(span) =>
                   setSpanItem(GRID_ITEM_SIZE[Number(span) - 1])
@@ -136,7 +143,7 @@ const MultiChartBox = ({
               />
             </MenuList>
           }
-          modalInfo={modelInfo}
+          modalInfo={modalInfo}
           title={title}
         />
         <Box p={"1"} />
@@ -182,7 +189,7 @@ const MultiChartBox = ({
               </linearGradient>
             </defs>
             <CartesianGrid
-              style={{ stroke: "rgba(10,10,10,0.1)", opacity: 0.25 }}
+              style={{ stroke: "rgba(110,110,110,1)", opacity: 0.15 }}
               strokeDasharray="3 3"
             />
             <XAxis
@@ -247,16 +254,24 @@ const MultiChartBox = ({
             <Legend fontSize={"8px"} verticalAlign="top" height={12} />
           </LineChart>
         </ResponsiveContainer>
-        {!isNotDate && <><Box p={"1"} />
-          <FilterDayBarBox
-            selecteRange={selectedDate}
-            onSelectLastNthDay={filterDateAccordingDay}
-            onSelectRangeDay={filterDateAccordingRange}
-            onResetClick={resetChartData}
-            minDate={minDate!.toDate()}
-            maxDate={maxDate!.toDate()}
-            filters={[{ day: 7, name: "7D" }, { day: 30, name: "30D" }, { day: 365, name: "1Y" }]}
-          /></>}
+        {!isNotDate && (
+          <>
+            <Box p={"1"} />
+            <FilterDayBarBox
+              selecteRange={selectedDate}
+              onSelectLastNthDay={filterDateAccordingDay}
+              onSelectRangeDay={filterDateAccordingRange}
+              onResetClick={resetChartData}
+              minDate={minDate!.toDate()}
+              maxDate={maxDate!.toDate()}
+              filters={[
+                { day: 7, name: "7D" },
+                { day: 30, name: "30D" },
+                { day: 365, name: "1Y" },
+              ]}
+            />
+          </>
+        )}
       </Box>
     </GridItem>
   );

@@ -9,6 +9,8 @@ import {
   Label,
   ResponsiveContainer,
   CartesianGrid,
+  Cell,
+  ReferenceLine,
 } from "recharts";
 import {
   Box,
@@ -25,27 +27,31 @@ import { GRID_ITEM_SIZE } from "./template";
 import ChartSpanMenu from "../basic/ChartSpanMenu";
 import ChartHeader from "../basic/ChartHeader";
 import LinkToSourceMenuItem from "../basic/LinkToSourceMenuItem";
+import { ModalInfo } from "../basic/ModalInfo";
 
 const BarGraph = ({
   title,
   dataKey,
-  oxLabel,
   oyLabel,
   values,
   baseSpan = 1,
-  extraDecimal = 2,
   labels,
-  modelInfo,
+  modalInfo,
   isNotDate = false,
   monthlyValues,
   extraInfoToTooltip,
   defualtTime = "day",
   queryLink,
   disclaimer,
+  isSeprate = false,
+  seprateNegetive = false,
+  infoSizePercentage = 50,
+  hideLegend = false,
 }: {
+  seprateNegetive?: boolean;
+  hideLegend?: boolean;
   defualtTime?: "day" | "month";
   title: string;
-  extraDecimal?: number;
   disclaimer?: string;
   dataKey: string;
   oxLabel: string;
@@ -53,11 +59,13 @@ const BarGraph = ({
   isNotDate?: boolean;
   monthlyValues?: any[];
   values: any[];
-  modelInfo: string;
+  modalInfo: string;
   baseSpan?: number;
+  isSeprate?: boolean;
   queryLink?: string;
   extraInfoToTooltip?: string;
   labels: { key: string; color: string }[];
+  infoSizePercentage?: number | "full";
 }) => {
   const hasMonthly = !isNotDate && monthlyValues && monthlyValues.length > 0;
   const [chartData, setChartData] = useState(
@@ -93,7 +101,7 @@ const BarGraph = ({
   const selectBar = (e: any) => {
     const numberOfBars = Object.keys(barProps).length - 1;
     const numberOfHideBars = Object.entries(barProps).filter(
-      ([key, value]) => value == true
+      ([, value]) => value == true
     ).length;
 
     if (numberOfBars === numberOfHideBars + 1 && !barProps[e.dataKey]) {
@@ -129,7 +137,6 @@ const BarGraph = ({
   return (
     <GridItem
       rowSpan={1}
-      colSpan={spanItem}
       color={textColor}
       bgColor={bgCard}
       shadow="base"
@@ -137,8 +144,24 @@ const BarGraph = ({
       _hover={{ boxShadow: "var(--chakra-shadows-lg)" }}
       borderRadius={"2xl"}
       width="100%"
+      colSpan={spanItem}
+      minHeight="auto"
+      display="flex"
+      flex={2}
+      flexDir={
+        spanItem["2xl"] !== 3 || infoSizePercentage === "full"
+          ? "column-reverse"
+          : ["column-reverse", "column-reverse", "column-reverse", "row", "row"]
+      }
     >
+      <ModalInfo
+        modalInfo={modalInfo}
+        infoSizePercentage={infoSizePercentage}
+        largeSpanSize={baseSpan}
+      />
+
       <Box
+        flex={1}
         px="4"
         pt="4"
         pb={"2"}
@@ -152,7 +175,7 @@ const BarGraph = ({
         <ChartHeader
           disclaimer={disclaimer}
           chartMenu={
-            <MenuList>
+            <MenuList bg="#232323">
               {queryLink && (
                 <>
                   <LinkToSourceMenuItem queryLink={queryLink} />
@@ -187,15 +210,14 @@ const BarGraph = ({
               />
             </MenuList>
           }
-          modalInfo={modelInfo}
+          modalInfo={modalInfo}
           title={title}
         />
         <Box p={"1"} />
-
-        <ResponsiveContainer width={"100%"}>
+        <ResponsiveContainer height={425} width={"100%"}>
           <BarChart data={chartData} className="mt-1 mb-2">
             <CartesianGrid
-              style={{ stroke: "rgba(10,10,10,0.1)", opacity: 0.25 }}
+              style={{ stroke: "rgba(110,110,110,1)", opacity: 0.15 }}
               strokeDasharray="3 3"
             />
             <XAxis
@@ -218,7 +240,7 @@ const BarGraph = ({
               type="number"
               tickFormatter={(value) =>
                 millify(value, {
-                  precision: extraDecimal,
+                  precision: 2,
                   decimalSeparator: ".",
                 })
               }
@@ -253,30 +275,65 @@ const BarGraph = ({
               formatter={(a: any) => {
                 return (
                   millify(a, {
-                    precision: extraDecimal,
+                    precision: 2,
                     decimalSeparator: ".",
                   }) + `${extraInfoToTooltip ?? ""}`
                 );
               }}
             />
-            <Legend
-              fontSize={"8px"}
-              style={{ fontSize: "7px", position: "relative" }}
-              onClick={selectBar}
-              onMouseOver={handleLegendMouseEnter}
-              onMouseOut={handleLegendMouseLeave}
-            />
-            {labels.map((label, index) => (
-              <Bar
-                key={index}
-                dataKey={label.key}
-                fill={label.color}
-                stackId={dataKey}
-                hide={barProps[label.key] === true}
-                fillOpacity={Number(
-                  barProps.hover === label.key || !barProps.hover ? 1 : 0.6
-                )}
+            {!hideLegend && (
+              <Legend
+                fontSize={"8px"}
+                height={40}
+                overflow="hidden"
+                style={{ fontSize: "7px", position: "relative" }}
+                onClick={selectBar}
+                onMouseOver={handleLegendMouseEnter}
+                onMouseOut={handleLegendMouseLeave}
               />
+            )}
+            {labels.map((label, index) => (
+              <>
+                <defs>
+                  <linearGradient
+                    id={`color${index}bargraph`}
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="0%"
+                      style={{ stopColor: label.color }}
+                      stopOpacity={0.5}
+                    />
+                    <stop
+                      offset="95%"
+                      style={{ stopColor: label.color }}
+                      stopOpacity={0.2}
+                    />
+                  </linearGradient>
+                </defs>
+                {seprateNegetive && <ReferenceLine y={0} stroke="#a9a9a9" />}
+                <Bar
+                  key={index}
+                  dataKey={label.key}
+                  // stroke={labels[index].color}
+                  fill={label.color}
+                  stackId={isSeprate ? index : dataKey}
+                  hide={barProps[label.key] === true}
+                  fillOpacity={Number(
+                    barProps.hover === label.key || !barProps.hover ? 1 : 0.6
+                  )}
+                >
+                  {seprateNegetive &&
+                    chartData!.map((entry, index) => (
+                      <Cell
+                        fill={entry[label.key] > 0 ? label.color : "#f00"}
+                      />
+                    ))}
+                </Bar>
+              </>
             ))}
           </BarChart>
         </ResponsiveContainer>

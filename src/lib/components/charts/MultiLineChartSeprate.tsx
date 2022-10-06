@@ -27,15 +27,15 @@ import LinkToSourceMenuItem from "../basic/LinkToSourceMenuItem";
 
 interface Props {
   baseSpan?: number;
-  modelInfo: string;
+  modalInfo: string;
   xAxisDataKey: string;
   title: string;
   data: any[];
   chartColors?: string[];
   isNotDate?: boolean;
   defultSelectedRange?: number | string;
-  yAxisName: string
-  yAxisData: string
+  yAxisName: string;
+  yAxisData: string;
   yAxixDataOptions: {
     name: string;
     value: string;
@@ -53,8 +53,8 @@ const MultiLineChartSeprate = ({
   yAxisData,
   data,
   title,
-  modelInfo,
-  defultSelectedRange = 'all',
+  modalInfo,
+  defultSelectedRange = "all",
   chartColors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"],
 }: Props) => {
   const [spanItem, setSpanItem] = useState(GRID_ITEM_SIZE[baseSpan - 1]);
@@ -62,76 +62,82 @@ const MultiLineChartSeprate = ({
   const bgCard = useColorModeValue("white", "#191919");
   const textColor = useColorModeValue("gray.900", "gray.100");
 
-  const [selectedDate, setSelectedDate] = useState<number | string>(defultSelectedRange)
+  const [selectedDate, setSelectedDate] = useState<number | string>(
+    defultSelectedRange
+  );
   const [chartData, setChartData] = useState(data);
   const [yAxisDatakey, setYAxisDatakey] = useState(yAxisData);
-  const [seprateChartData, setSeprateChartData] = useState<any[]>([])
+  const [seprateChartData, setSeprateChartData] = useState<any[]>([]);
 
   const filterDateAccordingDay = (numberOfDays: number) => {
-    const lastDay = moment(data[data.length - 1][xAxisDataKey]).subtract(numberOfDays, 'days');
-    const newData = data.filter(item => {
-      return moment(item[xAxisDataKey]).isAfter(lastDay)
-    })
+    const lastDay = moment(data[data.length - 1][xAxisDataKey]).subtract(
+      numberOfDays,
+      "days"
+    );
+    const newData = data.filter((item) => {
+      return moment(item[xAxisDataKey]).isAfter(lastDay);
+    });
     setSelectedDate(numberOfDays);
-    setChartData(newData)
-  }
+    setChartData(newData);
+  };
   const seriesSelector = () => {
-    const categories = Array.from(new Set(chartData.map((item) => item[yAxisKey])))
-    const finalData: { name: string, data: Object }[] = []
-    categories.forEach(category => {
-      const selectedData = chartData.filter(item => {
-        return item[yAxisKey] === category
-      })
+    const categories = Array.from(
+      new Set(chartData.map((item) => item[yAxisKey]))
+    );
+    const finalData: { name: string; data: Object }[] = [];
+    categories.forEach((category) => {
+      const selectedData = chartData.filter((item) => {
+        return item[yAxisKey] === category;
+      });
       finalData.push({
         name: category,
-        data: selectedData
-      })
-    })
+        data: selectedData,
+      });
+    });
 
-    setSeprateChartData(finalData)
-  }
+    setSeprateChartData(finalData);
+  };
   useEffect(() => {
-    seriesSelector()
-
-
-  }, [chartData])
-
+    seriesSelector();
+  }, [chartData]);
 
   const getMaxDate = () => {
     let maxD = moment(data[0][xAxisDataKey]);
-    data.forEach(item => {
+    data.forEach((item) => {
       if (moment(item[xAxisDataKey]).isAfter(maxD)) {
         maxD = moment(item[xAxisDataKey]);
       }
     });
     return maxD;
-  }
+  };
 
   const maxDate = isNotDate ? null : getMaxDate();
   const getMinDate = () => {
     let minD = moment(data[0][xAxisDataKey]);
-    data.forEach(item => {
+    data.forEach((item) => {
       if (moment(item[xAxisDataKey]).isBefore(minD)) {
         minD = moment(item[xAxisDataKey]);
       }
     });
     return minD;
-  }
+  };
   const minDate = isNotDate ? null : getMinDate();
 
   const filterDateAccordingRange = (minDate: Date, maxDate: Date) => {
-    const newData = data.filter(item => {
-      return moment(item[xAxisDataKey]).isAfter(minDate) && moment(item[xAxisDataKey]).isBefore(maxDate)
-    })
+    const newData = data.filter((item) => {
+      return (
+        moment(item[xAxisDataKey]).isAfter(minDate) &&
+        moment(item[xAxisDataKey]).isBefore(maxDate)
+      );
+    });
     setSelectedDate("custom");
-    setChartData(newData)
-  }
-
+    setChartData(newData);
+  };
 
   const resetChartData = () => {
-    setSelectedDate('all');
-    setChartData(data)
-  }
+    setSelectedDate("all");
+    setChartData(data);
+  };
 
   return (
     <GridItem
@@ -158,7 +164,7 @@ const MultiLineChartSeprate = ({
       >
         <ChartHeader
           chartMenu={
-            <MenuList>
+            <MenuList bg="#232323">
               <LinkToSourceMenuItem queryLink={queryLink} />
               <MenuDivider />
               <ChartSpanMenu
@@ -169,11 +175,14 @@ const MultiLineChartSeprate = ({
               />
               <MenuDivider />
 
-              <YAxixOption setYAxisDatakey={setYAxisDatakey} yAxisData={yAxisData} yAxixDataOptions={yAxixDataOptions} />
-
+              <YAxixOption
+                setYAxisDatakey={setYAxisDatakey}
+                yAxisData={yAxisData}
+                yAxixDataOptions={yAxixDataOptions}
+              />
             </MenuList>
           }
-          modalInfo={modelInfo}
+          modalInfo={modalInfo}
           title={title}
         />
         <Box p={"1"} />
@@ -219,7 +228,7 @@ const MultiLineChartSeprate = ({
               </linearGradient>
             </defs>
             <CartesianGrid
-              style={{ stroke: "rgba(10,10,10,0.1)", opacity: 0.25 }}
+              style={{ stroke: "rgba(110,110,110,1)", opacity: 0.15 }}
               strokeDasharray="3 3"
             />
             <XAxis
@@ -233,7 +242,6 @@ const MultiLineChartSeprate = ({
               dataKey={xAxisDataKey}
               type="category"
               allowDuplicatedCategory={false}
-
             />
             <YAxis
               // domain={domain}
@@ -263,30 +271,39 @@ const MultiLineChartSeprate = ({
 
             <Legend />
             {seprateChartData.map((item, index) => (
-              <Line dataKey={yAxisDatakey} stroke={chartColors[index % chartColors.length]} data={item.data} name={item.name} key={item.name} />
-            )
-            )}
+              <Line
+                dataKey={yAxisDatakey}
+                stroke={chartColors[index % chartColors.length]}
+                data={item.data}
+                name={item.name}
+                key={item.name}
+              />
+            ))}
 
             <Legend fontSize={"8px"} verticalAlign="top" height={12} />
           </LineChart>
         </ResponsiveContainer>
-        {!isNotDate && <><Box p={"1"} />
-          <FilterDayBarBox
-            selecteRange={selectedDate}
-            onSelectLastNthDay={filterDateAccordingDay}
-            onSelectRangeDay={filterDateAccordingRange}
-            onResetClick={resetChartData}
-            minDate={minDate!.toDate()}
-            maxDate={maxDate!.toDate()}
-            filters={[{ day: 7, name: "7D" }, { day: 30, name: "30D" }, { day: 365, name: "1Y" }]}
-          />
-        </>}
+        {!isNotDate && (
+          <>
+            <Box p={"1"} />
+            <FilterDayBarBox
+              selecteRange={selectedDate}
+              onSelectLastNthDay={filterDateAccordingDay}
+              onSelectRangeDay={filterDateAccordingRange}
+              onResetClick={resetChartData}
+              minDate={minDate!.toDate()}
+              maxDate={maxDate!.toDate()}
+              filters={[
+                { day: 7, name: "7D" },
+                { day: 30, name: "30D" },
+                { day: 365, name: "1Y" },
+              ]}
+            />
+          </>
+        )}
       </Box>
     </GridItem>
   );
 };
 
 export default MultiLineChartSeprate;
-
-
-

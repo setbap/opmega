@@ -43,3 +43,32 @@ export interface ITop10NFTCollectionBaseSellVolume {
   "Collection Name": string;
   "Sales Volume": string;
 }
+
+export interface INFTSalesInfo {
+  Day: string;
+  "NFT Collection": string;
+  "Sales Volume": number;
+  "Total Sales Volume": number;
+  "AVG Sales Volume": number;
+  "Unique Sellers": number;
+  "Unique Buyers": number;
+  "Total Unique Sellers": number;
+  "Total Unique Buyers": number;
+  "Sales Count": number;
+  "Total Sales Count": number;
+}
+
+export interface INFTSaleChange {
+  "Current Sales Volume": number;
+  "Current Unique Sellers": number;
+  "Current Unique Buyers": number;
+  "Current Sales Count": number;
+  "Previous Sales Volume": number;
+  "Previous Unique Sellers": number;
+  "Previous Unique Buyers": number;
+  "Previous Sales Count": number;
+  "change (%) Sales Volume": number;
+  "change (%) Unique Sellers": number;
+  "change (%) Unique Buyers": number;
+  "change (%) Sales Count": number;
+}
