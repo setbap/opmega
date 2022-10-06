@@ -16,6 +16,7 @@ import {
 } from "lib/types/types/nft";
 import StackedAreaChart from "lib/components/charts/StackedAreaGraph";
 import { ReturnDataType } from "lib/types/base";
+import TextBox from "lib/components/charts/TextBox";
 
 const colors = [
   "#ff5722",
@@ -88,7 +89,13 @@ const Governance = ({
           cardType: "summary_large_image",
         }}
       />
-      <Box mx={"auto"} px={{ base: 3, sm: 2, md: 8 }}>
+      <Box mx={"auto"} pt="4" px={{ base: 3, sm: 2, md: 8 }}>
+        <TextBox>
+          {`
+# Quix 
+Quixotic is the largest NFT marketplace operating on Optimism. Soon after the Optimism airdrop announcement, Quixotic announced its official launch to the masses. Because it runs on Optimism, its transactions and operations are fast and cheap compared to other marketplaces.
+`}
+        </TextBox>
         <SimpleGrid
           my={"6"}
           columns={{ base: 1, md: 2, lg: 2, "2xl": 3 }}

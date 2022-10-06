@@ -8,6 +8,7 @@ import { NextSeo } from "next-seo";
 import { INFTSaleChange, INFTSalesInfo } from "lib/types/types/nft";
 import StackedAreaChart from "lib/components/charts/StackedAreaGraph";
 import { ReturnDataType } from "lib/types/base";
+import TextBox from "lib/components/charts/TextBox";
 
 const colors = [
   "#ff5722",
@@ -79,7 +80,12 @@ const Governance = ({
           cardType: "summary_large_image",
         }}
       />
-      <Box mx={"auto"} px={{ base: 3, sm: 2, md: 8 }}>
+      <Box mx={"auto"} pt="4" px={{ base: 3, sm: 2, md: 8 }}>
+        <TextBox>
+          {`# Tofu
+tofuNFT is a fully featured decentralized marketplace for buying, selling and trading NFTs, created by SCV.Finance, and lives on 30+ EVM-compatible public chains, focused on GameFi.
+`}
+        </TextBox>
         <SimpleGrid
           my={"6"}
           columns={{ base: 1, md: 2, lg: 2, "2xl": 3 }}
