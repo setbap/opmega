@@ -130,7 +130,7 @@ const Governance = ({
             data={topBasedOnSaleCount.slice(0, 10)}
             nameKey="NFT Collection"
             dataKey="Sales Count"
-            title="NFT collection based on count"
+            title="Top 10 NFT collection based on count"
             baseSpan={1}
             modalInfo=""
           />
@@ -138,7 +138,7 @@ const Governance = ({
             data={topBasedOnSaleVolume.slice(0, 10)}
             nameKey="NFT Collection"
             dataKey="Sales Volume"
-            title="NFT collection based on volume"
+            title="Top 10 NFT collection based on volume"
             baseSpan={1}
             modalInfo=""
           />
